@@ -21,9 +21,9 @@ def main():
     pretrain_dataset = datasets.load_dataset(
         "Salesforce/wikitext", "wikitext-103-raw-v1"
     )
-    pretrain_dataset = pretrain_dataset.filter(lambda x: len(x["text"]) > 200)
+    # pretrain_dataset = pretrain_dataset.filter(lambda x: len(x["text"]) > 200)
 
-    tokenizer = Tokenizer(BPE())
+    tokenizer = Tokenizer(BPE(unk_token="[UNK]"))
     trainer = BpeTrainer(
         vocab_size=32_000, special_tokens=["[UNK]", "[CLS]", "[SEP]", "[PAD]", "[MASK]"]
     )
