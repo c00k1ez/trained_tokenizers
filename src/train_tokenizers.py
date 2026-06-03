@@ -15,17 +15,18 @@ def dataset_iterator(dataset, batch_size=100):
 
 
 @click.command()
-def main():
+@click.option("--vocab_size", default=32_000, type=int)
+def main(vocab_size: int):
     base_dir = Path("./trained_tokenizers")
 
     pretrain_dataset = datasets.load_dataset(
         "Salesforce/wikitext", "wikitext-103-raw-v1"
     )
-    # pretrain_dataset = pretrain_dataset.filter(lambda x: len(x["text"]) > 200)
 
     tokenizer = Tokenizer(BPE(unk_token="[UNK]"))
     trainer = BpeTrainer(
-        vocab_size=32_000, special_tokens=["[UNK]", "[CLS]", "[SEP]", "[PAD]", "[MASK]"]
+        vocab_size=vocab_size,
+        special_tokens=["[UNK]", "[CLS]", "[SEP]", "[PAD]", "[MASK]"],
     )
 
     tokenizer.train_from_iterator(
@@ -36,7 +37,7 @@ def main():
     if not tokenizers_dir.exists():
         tokenizers_dir.mkdir()
 
-    tokenizer.save(str(tokenizers_dir / "en_tokenizers_wikitext_32000.json"))
+    tokenizer.save(str(tokenizers_dir / f"en_tokenizers_wikitext_{vocab_size}.json"))
 
 
 if __name__ == "__main__":
