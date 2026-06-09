@@ -1,6 +1,6 @@
 import click
 import datasets
-from tokenizers import Tokenizer, pre_tokenizers, decoders, processors
+from tokenizers import Tokenizer, pre_tokenizers, processors
 from tokenizers.models import BPE
 from tokenizers.trainers import BpeTrainer
 
